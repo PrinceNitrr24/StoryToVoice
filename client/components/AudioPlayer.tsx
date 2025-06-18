@@ -23,6 +23,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, title }) => {
 
     const updateTime = () => setCurrentTime(audio.currentTime);
     const updateDuration = () => setDuration(audio.duration);
+
     const handleError = async (e: Event) => {
       const audio = e.target as HTMLAudioElement;
       let errorMessage = "Unknown error";
@@ -33,8 +34,12 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, title }) => {
         try {
           const response = await fetch(audioUrl, { method: "HEAD" });
           errorMessage += ` (HTTP ${response.status}: ${response.statusText})`;
-        } catch (fetchError: any) {
-          errorMessage += ` (Fetch error: ${fetchError.message})`;
+        } catch (fetchError: unknown) {
+          if (fetchError instanceof Error) {
+            errorMessage += ` (Fetch error: ${fetchError.message})`;
+          } else {
+            errorMessage += ` (Fetch error: Unknown)`;
+          }
         }
       }
       setError(`Failed to load audio: ${errorMessage}`);
@@ -48,6 +53,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, title }) => {
         errorMessage
       );
     };
+
     const handleEnded = () => setIsPlaying(false);
 
     audio.addEventListener("timeupdate", updateTime);
@@ -75,9 +81,11 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl, title }) => {
       }
       setIsPlaying(!isPlaying);
       setError(null);
-    } catch (err) {
-      const errorMessage =
-        err instanceof Error ? err.message : "Unknown playback error";
+    } catch (err: unknown) {
+      let errorMessage = "Unknown playback error";
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      }
       setError(`Playback failed: ${errorMessage}`);
       console.error("Playback error:", err, "URL:", audioUrl);
     }

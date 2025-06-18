@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { BookOpen, Loader, Image, FileText } from "lucide-react";
 import { storyAPI } from "@/utils/api";
 
-
 const CreateStoryPage: React.FC = () => {
   const [formData, setFormData] = useState({
     title: "",
@@ -69,7 +68,8 @@ const CreateStoryPage: React.FC = () => {
           className="text-gray-300 text-lg animate-slide-up"
           style={{ animationDelay: "0.1s" }}
         >
-          Write your story and we'll convert it to beautiful audio automatically
+          Write your story and we&apos;ll convert it to beautiful audio
+          automatically
         </p>
       </div>
 
@@ -191,12 +191,15 @@ const CreateStoryPage: React.FC = () => {
 
         {/* Info Box */}
         <div className="mt-8 p-4 bg-gray-800 rounded-lg border-l-4 border-secondary">
-          <h3 className="font-semibold text-accent mb-2">What happens next?</h3>
+          <h3 className="font-semibold text-accent mb-2">
+            What happens next&#63;
+          </h3>
           <ul className="text-gray-300 text-sm space-y-1">
             <li>• Your story will be saved and assigned a unique ID</li>
-            <li>• We'll automatically generate high-quality audio narration</li>
+            <li>• We will automatically generate high-quality audio narration</li>
             <li>
-              • You'll be redirected to your story page with a shareable link
+              • You&apos;ll be redirected to your story page with a shareable
+              link
             </li>
             <li>• Others can read and listen to your story instantly</li>
           </ul>

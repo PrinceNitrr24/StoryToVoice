@@ -11,6 +11,7 @@ import {
   Check,
   ExternalLink,
 } from "lucide-react";
+import Image from "next/image";
 import { useStory } from "@/hooks/useStories";
 import AudioPlayer from "@/components/AudioPlayer";
 import LoadingSpinner from "@/components/LoadingSpinner";
@@ -26,7 +27,6 @@ const StoryPage: React.FC = () => {
       : "";
   const { story, loading, error } = useStory(id);
   const [copySuccess, setCopySuccess] = useState(false);
-  const [audioError, setAudioError] = useState<string | null>(null);
 
   useEffect(() => {
     if (story) {
@@ -149,11 +149,14 @@ const StoryPage: React.FC = () => {
           className="mb-8 animate-slide-up"
           style={{ animationDelay: "0.2s" }}
         >
-          <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
-            <img
+          <div className="relative aspect-video rounded-lg overflow-hidden shadow-lg">
+            <Image
               src={story.thumbnail_url}
               alt={story.title}
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              style={{ objectFit: "cover" }}
             />
           </div>
         </div>
@@ -162,13 +165,10 @@ const StoryPage: React.FC = () => {
       {/* Audio Player */}
       <div className="mb-8 animate-slide-up" style={{ animationDelay: "0.3s" }}>
         {story.audio_file ? (
-          <>
-            <AudioPlayer
-              audioUrl={getAudioUrl(story.audio_file)}
-              title={story.title}
-            />
-            {audioError && <p className="text-red-500 mt-2">{audioError}</p>}
-          </>
+          <AudioPlayer
+            audioUrl={getAudioUrl(story.audio_file)}
+            title={story.title}
+          />
         ) : (
           <div className="bg-gray-900 rounded-lg p-6 shadow-lg border border-gray-800">
             <p className="text-red-500">Audio not available for this story</p>
