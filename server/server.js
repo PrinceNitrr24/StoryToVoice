@@ -15,6 +15,7 @@ const PORT = process.env.PORT || 5001;
 // Define allowed origins
 const allowedOrigins = [
   "http://localhost:3000",
+  "https://story-to-voice-nrf5.vercel.app",
   process.env.FRONTEND_URL,
 ].filter(Boolean);
 
