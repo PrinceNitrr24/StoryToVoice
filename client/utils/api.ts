@@ -10,7 +10,6 @@ const api = axios.create({
   },
 });
 
-// Add response interceptor for better error handling
 api.interceptors.response.use(
   (response) => response,
   (error) => {
